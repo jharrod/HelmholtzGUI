@@ -334,25 +334,30 @@ void MainWindow::on_stopBtn_clicked()
 
 void MainWindow::on_loadCalBtn_clicked()
 {
-    QFile file;
-    file.setFileName("calibrate.txt");
-    if (fileExists("calibrate.txt")) {
-        if (!file.open(QIODevice::ReadOnly)) {
-            qDebug() << "File didn't open";
-        }
-        else {
-           QTextStream in(&file);
-           while (!in.atEnd()) {
-               serial->write("~C");
-               QString line = in.readLine();
-               serial->write(line.toLocal8Bit());
-
-           }
-           cal->setCalibrated(true);
-        }
+    if (connected == false) {
+        QMessageBox::critical(this, tr("Error"), tr("Not connected to controller."));
     }
     else {
-        QMessageBox::critical(this, tr("Error"), tr("No saved calibration found, please re-calibrate magnetometers."));
+        QFile file;
+        file.setFileName("calibrate.txt");
+        if (fileExists("calibrate.txt")) {
+            if (!file.open(QIODevice::ReadOnly)) {
+                qDebug() << "File didn't open";
+            }
+            else {
+               QTextStream in(&file);
+               while (!in.atEnd()) {
+                   serial->write("~C");
+                   QString line = in.readLine();
+                   serial->write(line.toLocal8Bit());
+
+               }
+               cal->setCalibrated(true);
+            }
+        }
+        else {
+            QMessageBox::critical(this, tr("Error"), tr("No saved calibration found, please re-calibrate magnetometers."));
+        }
     }
 }
 

@@ -257,12 +257,13 @@ void MainWindow::handleError(QSerialPort::SerialPortError error){
 
 void MainWindow::on_pushButton_clicked()
 {
-    if (!cal->isCalibrated()) {
-        QMessageBox::critical(this, tr("Warning"), tr("Magnetometers have not been calibrated."));
-    }
+
 
     if (connected == false) {
         QMessageBox::critical(this, tr("Error"), tr("Not connected to controller."));
+    }
+    else if (!cal->isCalibrated()) {
+        QMessageBox::critical(this, tr("Warning"), tr("Magnetometers have not been calibrated."));
     }
     else if (ui->lineEdit_X->text().isEmpty() || ui->lineEdit_Y->text().isEmpty() || ui->lineEdit_Z->text().isEmpty()){
         QMessageBox::critical(this, tr("Error"), tr("One or more of magnetic feild vector inputs are empty."));

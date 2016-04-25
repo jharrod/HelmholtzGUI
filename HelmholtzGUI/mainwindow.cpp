@@ -308,7 +308,8 @@ void MainWindow::about() {
 
     QMessageBox::about(this, tr("About Helmholtz Cage GUI Controller"),
                        tr("<b>Helmholtz Cage Controller</b><br>Developers: Phil Van Every, "
-                          "Jeremy Harrod, Wesley Hutchins.<br>COSMIAC, 2016<br>http://cosmiac.org/"));
+                          "Jeremy Harrod, Wesley Hutchins.<br><a href='http://cosmiac.org/'>COSMIAC")); //, 2016<br>http://cosmiac.org/"));
+
 }
 
 void MainWindow::on_calibrateBtn_clicked()

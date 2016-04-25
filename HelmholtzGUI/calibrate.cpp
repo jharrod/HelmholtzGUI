@@ -22,6 +22,7 @@ Calibrate::Calibrate(QWidget *parent) :
     }
 
     saveCal = false;
+    calibrated = false;
 
 }
 
@@ -117,7 +118,7 @@ void Calibrate::setCellText(int row, int col, QString text) {
 void Calibrate::on_save_clicked()
 {
     QFile file;
-    file.setFileName("/home/jeremy/calibration.txt");
+    file.setFileName("calibration.txt");
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         qDebug() << "File didn't open";
@@ -146,6 +147,14 @@ void Calibrate::on_save_clicked()
     }
 
     serial->write("~S");
-    //saveCal = true;
+    setCalibrated(true);
     this->close();
+}
+
+void Calibrate::setCalibrated(bool set) {
+    calibrated = set;
+}
+
+bool Calibrate::isCalibrated() {
+    return calibrated;
 }

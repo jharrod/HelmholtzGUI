@@ -20,6 +20,8 @@ public:
     explicit Calibrate(QWidget *parent = 0);
     void updateCalTable(CalibrationData &calData);
     void setPort(QSerialPort *ser);
+    bool isCalibrated();
+    void setCalibrated(bool set);
 
     ~Calibrate();
 
@@ -33,6 +35,7 @@ private slots:
     void on_save_clicked();
 
 private:
+    bool calibrated;
     bool saveCal;
     QSerialPort *serial;
     Ui::Calibrate *ui;

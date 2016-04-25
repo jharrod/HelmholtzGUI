@@ -257,6 +257,10 @@ void MainWindow::handleError(QSerialPort::SerialPortError error){
 
 void MainWindow::on_pushButton_clicked()
 {
+    if (!cal->isCalibrated()) {
+        QMessageBox::critical(this, tr("Warning"), tr("Magnetometers have not been calibrated."));
+    }
+
     if (connected == false) {
         QMessageBox::critical(this, tr("Error"), tr("Not connected to controller."));
     }
@@ -343,7 +347,11 @@ void MainWindow::on_loadCalBtn_clicked()
                serial->write(line.toLocal8Bit());
 
            }
+           cal->setCalibrated(true);
         }
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), tr("No saved calibration found, please re-calibrate magnetometers."));
     }
 }
 

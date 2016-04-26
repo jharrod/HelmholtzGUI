@@ -15,16 +15,20 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     calibrate.cpp \
-    settings.cpp
+    settings.cpp \
+    detailswindow.cpp
 
 HEADERS  += mainwindow.h \
     calibrate.h \
     settings.h \
-    calibrationdata.h
+    calibrationdata.h \
+    detailswindow.h \
+    magdata.h
 
 FORMS    += mainwindow.ui \
     calibrate.ui \
-    settings.ui
+    settings.ui \
+    detailswindow.ui
 
 RESOURCES += \
     buttons.qrc

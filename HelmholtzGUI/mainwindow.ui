@@ -15,72 +15,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_3">
-    <item row="1" column="0" rowspan="4">
-     <widget class="QPlainTextEdit" name="plainTextEdit">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="maximumBlockCount">
-       <number>200</number>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1" colspan="2">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>283</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="1" column="1">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="minimumSize">
-       <size>
-        <width>280</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="title">
-       <string>Magnetic Field Readings:</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="x">
-         <property name="text">
-          <string>Current X:   </string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="y">
-         <property name="text">
-          <string>Current Y:     </string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="z">
-         <property name="text">
-          <string>Current Z:    </string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="curMag">
-         <property name="text">
-          <string>Magnitude:     </string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="0" column="0" colspan="3">
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0" colspan="2">
@@ -129,7 +63,20 @@
       </item>
      </layout>
     </item>
-    <item row="4" column="1" colspan="2">
+    <item row="4" column="1">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="5" column="1" colspan="2">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QPushButton" name="calibrateBtn">
@@ -154,27 +101,85 @@
       </item>
      </layout>
     </item>
-    <item row="3" column="1">
-     <spacer name="verticalSpacer">
+    <item row="3" column="1" colspan="2">
+     <spacer name="horizontalSpacer">
       <property name="orientation">
-       <enum>Qt::Vertical</enum>
+       <enum>Qt::Horizontal</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>20</width>
-        <height>40</height>
+        <width>283</width>
+        <height>20</height>
        </size>
       </property>
      </spacer>
     </item>
+    <item row="1" column="0" rowspan="5">
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="maximumBlockCount">
+       <number>200</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="minimumSize">
+       <size>
+        <width>280</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Magnetic Field Readings:</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="x">
+         <property name="text">
+          <string>Current X:   </string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="y">
+         <property name="text">
+          <string>Current Y:     </string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="z">
+         <property name="text">
+          <string>Current Z:    </string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="curMag">
+         <property name="text">
+          <string>Magnitude:     </string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="detailsBtn">
+      <property name="text">
+       <string>Show Details</string>
+      </property>
+     </widget>
+    </item>
    </layout>
    <zorder>plainTextEdit</zorder>
-   <zorder>stopBtn</zorder>
-   <zorder>calibrateBtn</zorder>
-   <zorder>loadCalBtn</zorder>
    <zorder>groupBox</zorder>
    <zorder>horizontalSpacer</zorder>
    <zorder>verticalSpacer</zorder>
+   <zorder>detailsBtn</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -182,7 +187,7 @@
      <x>0</x>
      <y>0</y>
      <width>816</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

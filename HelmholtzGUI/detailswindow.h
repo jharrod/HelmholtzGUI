@@ -1,0 +1,30 @@
+#ifndef DETAILSWINDOW_H
+#define DETAILSWINDOW_H
+
+#include <QDialog>
+#include <magdata.h>
+
+namespace Ui {
+class DetailsWindow;
+}
+
+class DetailsWindow : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit DetailsWindow(QWidget *parent = 0);
+    void updateMagDetailsTable(MagData &data);
+    ~DetailsWindow();
+
+private slots:
+    void on_cancel_clicked();
+
+private:
+    Ui::DetailsWindow *ui;
+    void closeEvent(QCloseEvent *event);
+    int findRow(QString address, QString bus);
+    void setCellText(int row, int col, QString text);
+};
+
+#endif // DETAILSWINDOW_H

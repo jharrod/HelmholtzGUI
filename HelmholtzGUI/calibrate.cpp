@@ -48,6 +48,10 @@ void Calibrate::setPort(QSerialPort *ser) {
     serial = ser;
 }
 
+////////////////////////////////
+//TO DO: Make table manager class
+//There are copies of these functions in this file and detailswindow.cpp
+////////////////////////////////
 void Calibrate::updateCalTable(CalibrationData &magData) {
    // qDebug() << "Searching add: " << magData.address << " Bus: " << magData.bus;
         int row = findRow(magData.address, magData.bus);
@@ -56,7 +60,7 @@ void Calibrate::updateCalTable(CalibrationData &magData) {
             ui->tableWidget->insertRow(0);
             row = 0;
         }
-        setCellText(row, 0, magData.address);
+        setCellText(row, 0,magData.address);
         setCellText(row,1, magData.bus);
         setCellText(row,2, magData.xmin);
         setCellText(row,3, magData.xmax);
@@ -146,6 +150,7 @@ void Calibrate::on_save_clicked()
         file.close();
     }
 
+    //tell controller to save calibration
     serial->write("~S");
     setCalibrated(true);
     this->close();

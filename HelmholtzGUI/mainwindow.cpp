@@ -9,6 +9,7 @@
 #include <qdebug.h>
 #include <QFileInfo>
 #include "calibrationdata.h"
+#include "magdata.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -32,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     usrSettings = new Settings;
     cal = new Calibrate;
-    //cal->setMainWindow(this);
+    details = new DetailsWindow;
 
     serial = new QSerialPort(this);
 
@@ -45,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initConnections();
 
-    //ui->plainTextEdit->appendPlainText(tr("Status Messages Will Appear Here:"));
     ui->plainTextEdit->appendPlainText(tr("Connecting..."));
 
 }
@@ -100,9 +100,11 @@ void MainWindow::writeData(const QByteArray &data){
 
 void MainWindow::readData(){
     static CalibrationData magData;
+    static MagData detailsData;
     static bool start = false, _x = false, _y = false, _z = false, _e = false;
     static bool A = false, B = false, X = false, Y = false, Z = false;
     static bool I = false, J = false, K = false;
+    static bool D = false;
     static double x,y,z;
 
 
@@ -138,6 +140,11 @@ void MainWindow::readData(){
                 updateCurField(x,y,z);
                 _z = false;
             }
+            else if (D) {
+                //parse details
+
+                D = false;
+            }
             else if (_e) {
                 QMessageBox::critical(this, tr("Error"), tr(buf));
                 _e = false;
@@ -153,6 +160,9 @@ void MainWindow::readData(){
             else if (X) {
                 magData.xmax = buf;
                 X = false;
+            }
+            else if (D) {
+                //parse detils
             }
             else if (Y) {
                 magData.ymax = buf;
@@ -189,6 +199,9 @@ void MainWindow::readData(){
             else if(start == true) {
                 if (buffer[i] == 'x') {
                     _x = true;
+                }
+                else if (buffer[i] == 'D') {
+                    D = true;
                 }
                 else if(buffer[i] == 'y') {
                     _y = true;
@@ -236,12 +249,75 @@ void MainWindow::readData(){
     }
 }
 
+void MainWindow::parseMagDetails(QByteArray buffer) {
+    //format:
+    // "add,bus,rawx,rawy,rawz,calx,caly,calz,\n"
+    // add is two chars
+    // bus is 1 char
+
+    enum CurData {rawx,rawy,rawz,calx,caly,calz,none};
+    CurData curData;
+    curData = rawx;
+
+    MagData data;
+    QByteArray tempBuf;
+    int size = buffer.size();
+
+    tempBuf.append(buffer[0]);
+    tempBuf.append(buffer[1]);
+    data.address = tempBuf;
+    tempBuf.clear();
+    //buffer[3] is ','
+    data.bus = buffer[3];
+    //buffer[4] is ','
+
+    int i = 5;
+    while (buffer [i] != '\n' && i < size) {
+        while (buffer[i] != ',') {
+            tempBuf.append(buffer[i]);
+            i++;
+        }
+        i++; //skip ','
+
+        switch (curData) {
+
+        case rawx:
+                data.rawx = tempBuf;
+                curData = rawy;
+                break;
+        case rawy:
+                data.rawy = tempBuf;
+                curData = rawz;
+                break;
+        case rawz:
+                data.rawz = tempBuf;
+                curData = calx;
+                break;
+        case calx:
+                data.calx = tempBuf;
+                curData = caly;
+                break;
+        case caly:
+                data.caly = tempBuf;
+                curData = calz;
+                break;
+        case calz:
+                data.calz = tempBuf;
+                curData = none;
+                break;
+        }
+        tempBuf.clear();
+
+    }
+    details->updateMagDetailsTable(data);
+}
+
 void MainWindow::updateCurField(double x, double y, double z) {
     qDebug() << "Updating mag field: {"<<x<<","<<y<<","<<z<<"}";
    //ui->curField->setText(tr("{%1,%2,%3}").arg(x).arg(y).arg(z));
-   ui->x->setText("Current X: " + QString::number(x));
-   ui->y->setText("Current Y: " + QString::number(y));
-   ui->z->setText("Current Z: " + QString::number(z));
+   ui->x->setText(tr("Current X: ") + QString::number(x));
+   ui->y->setText(tr("Current Y: ") + QString::number(y));
+   ui->z->setText(tr("Current Z: ") + QString::number(z));
    ui->curMag->setText(tr("Magnitude: %1").arg(qSqrt(x*x+y*y+z*z)));
 }
 
@@ -330,7 +406,12 @@ void MainWindow::on_calibrateBtn_clicked()
 
 void MainWindow::on_stopBtn_clicked()
 {
-    serial->write("~s");
+    if (connected == false) {
+        QMessageBox::critical(this, tr("Error"), tr("Not connected to controller."));
+    }
+    else {
+        serial->write("~s");
+    }
 }
 
 void MainWindow::on_loadCalBtn_clicked()
@@ -371,4 +452,17 @@ bool MainWindow::fileExists(QString path) {
         return false;
     }
 
+}
+
+
+
+void MainWindow::on_detailsBtn_clicked()
+{
+    if (connected == false) {
+        QMessageBox::critical(this, tr("Error"), tr("Not connected to controller."));
+    }
+    else {
+        serial->write("~D");
+        details->show();
+    }
 }

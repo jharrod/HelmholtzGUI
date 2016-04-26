@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QtSerialPort/QSerialPort>
 #include <QTextEdit>
+#include <detailswindow.h>
 
 
 class QLabel;
@@ -40,15 +41,20 @@ private slots:
 
     void on_loadCalBtn_clicked();
 
+
+    void on_detailsBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
     QByteArray buf;
     Settings *usrSettings;
+    DetailsWindow *details;
     Calibrate *cal;
     QSerialPort *serial;
     void initConnections();
     void showStatusMessage(const QString &msg);
     void updateCurField(double x, double y, double z);
+    void parseMagDetails(QByteArray buffer);
     bool fileExists(QString path);
     QMenu *fileMenu;
     QMenu *settingsMenu;

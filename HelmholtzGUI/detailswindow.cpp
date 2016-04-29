@@ -18,7 +18,7 @@ void DetailsWindow::closeEvent(QCloseEvent *event) {
     //closing
     qDebug() << "details closed";
     // set controller to stop state
-    //serial->write("~d");
+    serial->write("~d");
 }
 
 void DetailsWindow::updateMagDetailsTable(MagData &data) {

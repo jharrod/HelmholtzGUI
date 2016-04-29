@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <magdata.h>
+#include <qserialport.h>
 
 namespace Ui {
 class DetailsWindow;
@@ -15,6 +16,7 @@ class DetailsWindow : public QDialog
 public:
     explicit DetailsWindow(QWidget *parent = 0);
     void updateMagDetailsTable(MagData &data);
+    void setPort(QSerialPort *ser);
     ~DetailsWindow();
 
 private slots:
@@ -22,6 +24,7 @@ private slots:
 
 private:
     Ui::DetailsWindow *ui;
+    QSerialPort *serial;
     void closeEvent(QCloseEvent *event);
     int findRow(QString address, QString bus);
     void setCellText(int row, int col, QString text);

@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\calibrate.o
+./release\settings.o
+./release\detailswindow.o
+./release\qrc_buttons.o
+./release\moc_mainwindow.o
+./release\moc_calibrate.o
+./release\moc_settings.o
+./release\moc_detailswindow.o
+);

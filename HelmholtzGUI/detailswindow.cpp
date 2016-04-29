@@ -14,6 +14,10 @@ DetailsWindow::~DetailsWindow()
     delete ui;
 }
 
+void DetailsWindow::setPort(QSerialPort *ser) {
+    serial = ser;
+}
+
 void DetailsWindow::closeEvent(QCloseEvent *event) {
     //closing
     qDebug() << "details closed";

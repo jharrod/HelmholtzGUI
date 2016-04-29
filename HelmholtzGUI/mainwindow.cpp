@@ -462,6 +462,7 @@ void MainWindow::on_detailsBtn_clicked()
         QMessageBox::critical(this, tr("Error"), tr("Not connected to controller."));
     }
     else {
+        details->setPort(serial);
         serial->write("~D");
         details->show();
     }

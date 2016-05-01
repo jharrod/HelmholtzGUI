@@ -112,6 +112,7 @@ void MainWindow::readData(){
     // X, Y, Z: calibration maxs x, y, z incoming
     // I, J, K: calibration mins x, y, z incoming
     // I: index incoming, A: address incomming, B: Bus incoming
+    //D: mag details incoming
 
     QByteArray buffer = serial->readAll(); //TO DO, MAKE SWICH INSTEAD OF IF ELSE
     for (int i=0; i<buffer.size(); i++) {
@@ -141,8 +142,7 @@ void MainWindow::readData(){
                 _z = false;
             }
             else if (D) {
-                //parse details
-
+                parseMagDetails(buf);
                 D = false;
             }
             else if (_e) {
@@ -160,9 +160,6 @@ void MainWindow::readData(){
             else if (X) {
                 magData.xmax = buf;
                 X = false;
-            }
-            else if (D) {
-                //parse detils
             }
             else if (Y) {
                 magData.ymax = buf;
@@ -424,7 +421,7 @@ void MainWindow::on_loadCalBtn_clicked()
         file.setFileName("calibrate.txt");
         if (fileExists("calibrate.txt")) {
             if (!file.open(QIODevice::ReadOnly)) {
-                qDebug() << "File didn't open";
+                 QMessageBox::critical(this, tr("Error"), tr("Could not open calibration file."));
             }
             else {
                QTextStream in(&file);
@@ -435,6 +432,7 @@ void MainWindow::on_loadCalBtn_clicked()
 
                }
                cal->setCalibrated(true);
+               file.close();
             }
         }
         else {

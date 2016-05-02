@@ -418,7 +418,7 @@ void MainWindow::on_loadCalBtn_clicked()
     }
     else {
         QFile file;
-        file.setFileName("calibrate.txt");
+        file.setFileName("calibration.txt");
         if (fileExists("calibrate.txt")) {
             if (!file.open(QIODevice::ReadOnly)) {
                  QMessageBox::critical(this, tr("Error"), tr("Could not open calibration file."));

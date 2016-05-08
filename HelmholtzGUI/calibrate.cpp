@@ -4,6 +4,7 @@
 #include "ui_calibrate.h"
 #include <qdebug.h>
 #include <QFile>
+#include <qmessagebox.h>
 
 #include <QDir>
 
@@ -125,7 +126,7 @@ void Calibrate::on_save_clicked()
     file.setFileName("calibration.txt");
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        qDebug() << "File didn't open";
+         QMessageBox::critical(this, tr("Error"), tr("Unable to create local copy of calibration file."));
     }
     else {
         QTableWidgetItem *cell;

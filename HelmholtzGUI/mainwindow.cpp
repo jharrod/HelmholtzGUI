@@ -439,6 +439,7 @@ void MainWindow::on_loadCalBtn_clicked()
                    serial->write("~C");
                    QString line = in.readLine();
                    serial->write(line.toLocal8Bit());
+                   serial->write("\n");
 
                }
                cal->setCalibrated(true);

@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = HelmholtzGUI
 TEMPLATE = app
+RC_FILE = HelmholtzGUI.rc
 
 
 SOURCES += main.cpp\

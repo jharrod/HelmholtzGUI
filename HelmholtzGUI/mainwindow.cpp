@@ -47,16 +47,6 @@ MainWindow::MainWindow(QWidget *parent) :
     initConnections();
 
     ui->plainTextEdit->appendPlainText(tr("Connecting..."));
-    ui->plainTextEdit->appendPlainText(tr("Connected to contorller."));
-    ui->plainTextEdit->appendPlainText(tr("Calibrating magnetometers..."));
-    ui->plainTextEdit->appendPlainText(tr("Calibration successful."));
-    ui->plainTextEdit->appendPlainText(tr("User defined field: "));
-    ui->plainTextEdit->appendPlainText(tr("x: 60 uT"));
-    ui->plainTextEdit->appendPlainText(tr("y: 10 uT"));
-    ui->plainTextEdit->appendPlainText(tr("z: 55 uT"));
-    ui->plainTextEdit->appendPlainText(tr("In control loop..."));
-
-    updateCurField(59.1041, 10.0416, 55.4014);
 
 }
 

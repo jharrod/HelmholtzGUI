@@ -10,6 +10,9 @@
 #include <QFileInfo>
 #include "calibrationdata.h"
 #include "magdata.h"
+#include <unistd.h>
+
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -310,7 +313,7 @@ void MainWindow::parseMagDetails(QByteArray buffer) {
 }
 
 void MainWindow::updateCurField(double x, double y, double z) {
-    qDebug() << "Updating mag field: {"<<x<<","<<y<<","<<z<<"}";
+   // qDebug() << "Updating mag field: {"<<x<<","<<y<<","<<z<<"}";
    //ui->curField->setText(tr("{%1,%2,%3}").arg(x).arg(y).arg(z));
    ui->x->setText(tr("Current X: ") + QString::number(x));
    ui->y->setText(tr("Current Y: ") + QString::number(y));
@@ -419,39 +422,27 @@ void MainWindow::on_loadCalBtn_clicked()
     else {
         QFile file;
         file.setFileName("calibration.txt");
-        if (fileExists("calibrate.txt")) {
             if (!file.open(QIODevice::ReadOnly)) {
-                 QMessageBox::critical(this, tr("Error"), tr("Could not open calibration file."));
+                 QMessageBox::critical(this, tr("Error"), tr("Calibration file not found, please re-calibrate."));
             }
             else {
                QTextStream in(&file);
                while (!in.atEnd()) {
                    serial->write("~C");
                    QString line = in.readLine();
-                   serial->write(line.toLocal8Bit());
+                  int bytesSent =  serial->write(line.toLocal8Bit());
+                  qDebug() << "sent: " + line + " bytes: " + bytesSent;
                    serial->write("\n");
+                   usleep(50000);
 
                }
                cal->setCalibrated(true);
                file.close();
             }
         }
-        else {
-            QMessageBox::critical(this, tr("Error"), tr("No saved calibration found, please re-calibrate magnetometers."));
-        }
-    }
-}
-
-bool MainWindow::fileExists(QString path) {
-    QFileInfo check_file(path);
-    // check if file exists and if yes: Is it really a file and no directory?
-    if (check_file.exists() && check_file.isFile()) {
-        return true;
-    } else {
-        return false;
-    }
 
 }
+
 
 
 
